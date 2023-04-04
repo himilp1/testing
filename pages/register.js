@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TextInput, Button } from 'react-native';
+import { View, Text, TextInput, Button, ImageBackground } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import styles from '../styles/registerStyle';
 
@@ -10,7 +10,7 @@ export default function Register({ navigation }) {
     const [password, setPassword] = React.useState('');
     const [email, setEmail] = React.useState('');
 
-    const handleLogin = () => {
+    const handleRegister = () => {
         console.log("firstName: " + firstName);
         
     };
@@ -28,7 +28,7 @@ export default function Register({ navigation }) {
                     <View style={styles.registerInput}>
                         <Text>First Name</Text>
                         <TextInput
-                            style={styles.style.firstNameInput}
+                            style={styles.firstNameInput}
                             onChangeText={setFirstName}
                             value={firstName}
                         />
@@ -62,12 +62,12 @@ export default function Register({ navigation }) {
                             secureTextEntry={true}
                         />
 
-                        <TouchableOpacity onPress={handleLogin()} style={styles.loginButton}>
-                            <Text style={styles.loginText}>Register</Text>
+                        <TouchableOpacity onPress={handleRegister()} style={styles.registerButton}>
+                            <Text style={styles.registerText}>Register</Text>
                         </TouchableOpacity>
                     </View>
 
-                    <TouchableOpacity onPress={() => navigation.navigate('login')} style={styles.registerlink}>
+                    <TouchableOpacity onPress={() => navigation.navigate('login')} style={styles.registerLink}>
                         <Text>Already have an account?</Text>
                     </TouchableOpacity>
                 </View>

@@ -18,9 +18,6 @@ export default StyleSheet.create({
         alignSelf: "center",
         backgroundColor: '#FFFFFF',
     },
-    loginHeader: {
-        
-    },
     plantifyHeader: {
         fontFamily: 'Kabel-Black',
         fontStyle: 'normal',
@@ -30,6 +27,10 @@ export default StyleSheet.create({
         color: '#385250',
         marginBottom: 10,
     },
+    loginHeader:{
+        marginBottom: 30,
+        borderBottomWidth: 1,
+    },
     headerSubtext: {
         fontFamily: 'Josefin Sans',
         fontStyle: 'normal',
@@ -37,7 +38,7 @@ export default StyleSheet.create({
         fontSize: 14,
         textAlign: 'center',
         color: '#000000',
-        marginBottom: 30,
+        marginBottom: 10,
     },
     backgroundImage:{
         flex:1,
@@ -73,6 +74,5 @@ export default StyleSheet.create({
     },
     loginLink: {
         alignSelf: "center",
-        
     },
 })  

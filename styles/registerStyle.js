@@ -19,7 +19,8 @@ export default StyleSheet.create({
         backgroundColor: '#FFFFFF',
     },
     registerHeader: {
-        
+        marginBottom: 30,
+        borderBottomWidth: 1,
     },
     plantifyHeader: {
         fontFamily: 'Kabel-Black',
@@ -37,7 +38,7 @@ export default StyleSheet.create({
         fontSize: 14,
         textAlign: 'center',
         color: '#000000',
-        marginBottom: 30,
+        marginBottom: 10,
     },
     backgroundImage:{
         flex:1,
@@ -74,4 +75,42 @@ export default StyleSheet.create({
     registerLink: {
         alignSelf: "center",
     },
+    firstNameInput:{
+        borderWidth: 1,
+        borderColor: 'gray',
+        borderRadius: 10,
+        padding: 5,
+        marginBottom: 10,
+    },
+    lastNameInput:{
+        borderWidth: 1,
+        borderColor: 'gray',
+        borderRadius: 10,
+        padding: 5,
+        marginBottom: 10,
+    },
+    usernameInput:{
+        borderWidth: 1,
+        borderColor: 'gray',
+        borderRadius: 10,
+        padding: 5,
+        marginBottom: 10,
+    },
+    registerButton:{
+        backgroundColor: '#385250',
+        borderRadius: 20,
+        padding: 10,
+        marginBottom: 20,
+    },
+    registerText:{
+        alignSelf: "center",
+        fontFamily: 'Kabel-Black',
+        fontStyle: "normal",
+        fontWeight: 900,
+        fontSize: 24,
+        color: 'white',
+    },
+    registerLink:{
+        alignSelf: "center",
+    }
 })  

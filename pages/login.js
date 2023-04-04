@@ -1,15 +1,28 @@
 import React from 'react';
-import { View, Text, TextInput, Button, ImageBackground } from 'react-native';
+import { View, Text, TextInput, ImageBackground } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import styles from '../styles/loginStyle';
+import { auth } from "../firebase";
+import { signInWithEmailAndPassword } from '../firebase/auth';
 
 export default function Login({ navigation }) {
     const [username, setUsername] = React.useState('');
     const [password, setPassword] = React.useState('');
 
     const handleLogin = () => {
-        
-    };
+        signInWithEmailAndPassword(auth, username, password)
+          .then((userCredential) => {
+            // Signed in
+            const user = userCredential.user;
+            console.log("successful login");
+          })
+          .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            console.log(errorCode, errorMessage);
+          });
+      };
+      
 
     return (
             <View style={styles.loginPage}>
@@ -37,7 +50,7 @@ export default function Login({ navigation }) {
                             secureTextEntry={true}
                         />
 
-                        <TouchableOpacity onPress={handleLogin()} style={styles.loginButton}>
+                        <TouchableOpacity onPress={handleLogin} style={styles.loginButton}>
                             <Text style={styles.loginText}>Login</Text>
                         </TouchableOpacity>
                     </View>
