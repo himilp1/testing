@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TextInput, ImageBackground } from 'react-native';
 
-function homeScreen(){
+function HomeScreen(){
     return (
         <View>
             <Text>Home Screen</Text>
@@ -9,4 +9,4 @@ function homeScreen(){
     );
 }
 
-export default homeScreen;
+export default HomeScreen;
