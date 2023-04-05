@@ -9,12 +9,14 @@ function Login() {
     const navigation = useNavigation();
     const [username, setUsername] = React.useState('');
     const [password, setPassword] = React.useState('');
+
     const handleLogin = () => {
     console.log("in handlelogin");
        auth.signInWithEmailAndPassword(username, password)
-          .then((userCredential) => {
-            // Signed in
-            navigation.navigate("home");
+          .then((userCredential) => {   
+            const user = userCredential.user;
+            console.log(user.uid);
+            navigation.navigate('home', { user: user.uid});
           })
           .catch((error) => {
             const errorCode = error.code;
