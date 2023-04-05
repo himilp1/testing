@@ -3,18 +3,26 @@ import { View, Text, TextInput, ImageBackground } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import styles from '../styles/loginStyle';
 import { auth } from "../firebase";
-import { signInWithEmailAndPassword } from '../firebase/auth';
 
 export default function Login({ navigation }) {
     const [username, setUsername] = React.useState('');
     const [password, setPassword] = React.useState('');
 
+    useEffect(() => {
+        auth.onAuthStateChanged(user => {
+            if(user){
+                navigation.navigate("Home");
+            }
+        })
+    }
+
+    )
     const handleLogin = () => {
-        signInWithEmailAndPassword(auth, username, password)
+        signInWithEmailAndPassword(username, password)
           .then((userCredential) => {
             // Signed in
             const user = userCredential.user;
-            console.log("successful login");
+            console.log("logged in with: ", user.username);
           })
           .catch((error) => {
             const errorCode = error.code;
