@@ -2,19 +2,19 @@ import React from 'react';
 import { View, Text, TextInput, ImageBackground } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import styles from '../styles/loginStyle';
-import { auth } from "../firebase";
-import { signInWithEmailAndPassword } from '../firebase/auth';
+import { auth } from '../firebase';
+import {useNavigation} from '@react-navigation/native';
 
-export default function Login({ navigation }) {
+function Login() {
+    const navigation = useNavigation();
     const [username, setUsername] = React.useState('');
     const [password, setPassword] = React.useState('');
-
     const handleLogin = () => {
-        signInWithEmailAndPassword(auth, username, password)
+    console.log("in handlelogin");
+       auth.signInWithEmailAndPassword(username, password)
           .then((userCredential) => {
             // Signed in
-            const user = userCredential.user;
-            console.log("successful login");
+            navigation.navigate("home");
           })
           .catch((error) => {
             const errorCode = error.code;
@@ -64,3 +64,5 @@ export default function Login({ navigation }) {
             </View>
     );
 }
+
+export default Login;

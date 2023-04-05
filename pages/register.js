@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TextInput, Button, ImageBackground } from 'react-native';
+import { View, Text, TextInput, ImageBackground } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import styles from '../styles/registerStyle';
 
