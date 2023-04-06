@@ -3,8 +3,7 @@ import { View, Text, TextInput, ImageBackground } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import styles from '../styles/registerStyle';
 import {useNavigation} from '@react-navigation/native';
-
-const URL = "https://us-central1-plantify-d36ed.cloudfunctions.net/registerUser";
+const URL = "https://us-central1-plantify-d36ed.cloudfunctions.net/server";
 
 function Register() {
     const [firstName, setFirstName] = React.useState('');
@@ -15,7 +14,7 @@ function Register() {
     const navigation = useNavigation();
 
     const handleRegister = () => {
-        fetch(URL, {
+        fetch(URL + "/registerUser", {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -30,7 +29,8 @@ function Register() {
         })
         .then(response => response.json())
         .then(data => {
-            navigation.navigate("home");
+            const uid= data.token.uid;
+            navigation.navigate("myPlantBase", {uid});
         })
         .catch(error => console.error(error));
     };

@@ -16,7 +16,7 @@ function Login() {
           .then((userCredential) => {   
             const user = userCredential.user;
             console.log(user.uid);
-            navigation.navigate('home', { user: user.uid});
+            navigation.navigate('myPlantBase', { user: user.uid});
           })
           .catch((error) => {
             const errorCode = error.code;
