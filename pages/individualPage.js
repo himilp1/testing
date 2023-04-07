@@ -7,8 +7,8 @@ import { useNavigation } from '@react-navigation/native';
 
 //Takes the font downloads and applies them
 const customFonts = {
-  'Kabel-Black': require('assets/fonts/Kabel-Black.ttf'),
-  'JosefinSans-Regular': require('assets/fonts/JosefinSans-Regular.ttf'),
+  'Kabel-Black': require('../assets/fonts/Kabel-Black.ttf'),
+  'JosefinSans-Regular': require('../assets/fonts/JosefinSans-Regular.ttf'),
 };
 
 //Back button function 
@@ -21,13 +21,13 @@ const BackButton = () => {
   }
   return (
     <TouchableOpacity onPress={handlePress}>
-      <Image style={styles.backButton} source={require('assets/icons8-back-arrow-100.png')} />
+      <Image style={styles.backButton} source={require('../assets/icons8-back-arrow-100.png')} />
     </TouchableOpacity>
     
   );
 };
 
-function individualPage() {
+function IndividualPage() {
   const [fontsLoaded, setFontsLoaded] = useState(false);
 
 
@@ -50,7 +50,7 @@ function individualPage() {
       <View style={styles.plantContainer}>
         <BackButton />
         <View style={styles.plantImageContainer}>
-          <Image source={require('assets/plant7-1.png')} style={styles.plantImage} />
+          <Image source={require('../assets/plant7-1.png')} style={styles.plantImage} />
         </View>
         <View style={styles.plantBioContainer}>
           <Text style={styles.singlePlantHeader}>Your Plant Name</Text>
@@ -61,7 +61,7 @@ function individualPage() {
           <View style={styles.plantDetails}>
             <View style={styles.plantDetail}>
               <Image
-                source={require('assets/waterdrop-1.png')}
+                source={require('../assets/waterdrop-1.png')}
                 style={styles.waterIcon}
               />
               <Text style={styles.plantSubtitles}>Water:</Text>
@@ -69,7 +69,7 @@ function individualPage() {
             <Text style={[styles.singlePlantDescription, styles.waterDescription]}>Whenever you want idk</Text>
             <View style={styles.plantDetail}>
               <Image
-                source={require('assets/sun-1.png')}
+                source={require('../assets/sun-1.png')}
                 style={styles.sunIcon}
               />
               <Text style={[styles.plantSubtitles, styles.sunTitle]}>Sun:</Text>
@@ -89,7 +89,7 @@ function individualPage() {
  );
 }
 
-export default individualPage;
+export default IndividualPage;
 
 const styles = StyleSheet.create({
   plantPage: {
