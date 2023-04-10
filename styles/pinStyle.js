@@ -7,15 +7,15 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   small: {
-    width: 150,
+    width: 180,
     height: 150,
   },
   medium: {
-    width: 150,
+    width: 180,
     height: 250,
   },
   large: {
-    width: 150,
+    width: 180,
     height: 325,
   },
   plantImage: {

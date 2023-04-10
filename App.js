@@ -6,7 +6,7 @@ import Register from './pages/register';
 import HomeScreen from './pages/homeScreen';
 import MyPlantBase from './pages/myPlantBase';
 import IndividualPage from './pages/individualPage';
-
+import AddPlant from './pages/addPlant';
 const Stack = createStackNavigator();
 import { useFonts } from 'expo-font';
 
@@ -29,6 +29,7 @@ function App() {
         <Stack.Screen name="home" component={HomeScreen}></Stack.Screen>
         <Stack.Screen name="myPlantBase" component={MyPlantBase}></Stack.Screen>
         <Stack.Screen name="Individual" component={IndividualPage}></Stack.Screen>
+        <Stack.Screen name="addPlant" component={AddPlant}></Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
   );
