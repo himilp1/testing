@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Button, Image, StyleSheet, Text, View } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
+import styles from '../styles/addPlant';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default function AddPlant() {
   const [imageUri, setImageUri] = useState(null);
@@ -19,21 +21,26 @@ export default function AddPlant() {
 
   return (
     <View style={styles.container}>
-      {imageUri && <Image source={{ uri: image }} style={styles.image} />}
-      <Button title="Select Image" onPress={selectImage} />
+      <View style={styles.pageBox}>
+        <View style={styles.imageContainer}>
+        <TouchableOpacity onPress={selectImage} style={styles.uploadArea}>
+            {imageUri ? (
+              <Image source={{ uri: imageUri }} style={styles.image} resizeMode="cover" />
+            ) : (
+              <Text style={styles.uploadText}>Upload</Text>
+            )}
+          </TouchableOpacity>
+        </View>
+        <View style={styles.plantName}>
+          <Text>Plant Name</Text>
+        </View>
+        <View style={styles.plantSpecies}>
+          <Text>Plant Species</Text>
+        </View>
+        <View style={styles.plantDescription}>
+          <Text>Plant Description</Text>
+        </View>
+      </View>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  image: {
-    width: 300,
-    height: 300,
-    resizeMode: 'contain',
-  },
-});

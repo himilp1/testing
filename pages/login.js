@@ -37,7 +37,7 @@ function Login() {
                     </View>
 
                     <View style={styles.loginInput}>
-                        <Text>Email or username</Text>
+                        <Text>Email Address</Text>
                         <TextInput
                             style={styles.emailInput}
                             onChangeText={setUsername}
