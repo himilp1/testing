@@ -1,14 +1,16 @@
-import React from 'react';
-import { StyleSheet, View, Text, Image, TouchableOpacity} from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, View, Text, Image, TouchableOpacity, TextInput } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
-import { useState, useEffect } from 'react';
 import { ScrollView } from 'react-native-gesture-handler';
-
+import { useNavigation } from '@react-navigation/native';
 
 const UserProfile = () => {
   const [image, setImage] = useState(null);
-
+  const [editMode, setEditMode] = useState(false);
+  const [lifetimePlants, setLifetimePlants] = useState(3);
+  const [joinDate, setJoinDate] = useState("01/01/2022");
+  
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -21,32 +23,66 @@ const UserProfile = () => {
       setImage(result.uri);
     }
   };
-  
+
+  const navigation = useNavigation();
+
+  const goBack = () => {
+    navigation.goBack();
+  };
+
   return (
     <ScrollView style={styles.entireScreen}>
       <View style={styles.container}>
         <View style={styles.profileHeader}>
+          <TouchableOpacity style={styles.backButton} onPress={goBack}>
+            <AntDesign name="arrowleft" size={24} color="black" />
+          </TouchableOpacity>
           <View style={styles.profilePicContainer}>
             <View style={styles.profilePicWrapper}>
               <Image source={{ uri: image }} style={styles.profilePic} />
               {image && <Image source={{ uri: image }} style={styles.profilePic} />}
             </View>
             <TouchableOpacity style={styles.cameraIcon} onPress={pickImage}>
-              <Image source={require('/Users/mihir.ar/Downloads/Client-Mobile-main/img/icons8-potted-plant-96.png')} style={styles.cameraImage} />
+              <Image source={require('/Users/mihir.ar/Downloads/Client-Mobile-main 2/img/upload_img.png')} style={styles.cameraImage} />
             </TouchableOpacity>
           </View>
           <Text style={styles.username}>Grant</Text>
         </View>
-          <View style={styles.stats}>
-          <View style={styles.stat}>
-            <Text style={styles.statNumber}>3 Lifetime Plants</Text>
-          </View>
-          <View style={styles.stat}>
-            <Text style={styles.statNumber}>Joined: 01/01/2022</Text>
-          </View>
+
+        <View style={styles.stats}>
+          {editMode ? (
+            <>
+              <View style={styles.stat}>
+                <TextInput
+                  style={styles.statNumber}
+                  onChangeText={text => setLifetimePlants(text)}
+                  value={lifetimePlants.toString()}
+                />
+              </View>
+              <View style={styles.stat}>
+                <TextInput
+                  style={styles.statNumber}
+                  onChangeText={text => setJoinDate(text)}
+                  value={joinDate}
+                />
+              </View>
+            </>
+          ) : (
+            <>
+              <View style={styles.stat}>
+                <Text style={styles.statNumber}>{lifetimePlants} Lifetime Plants</Text>
+              </View>
+              <View style={styles.stat}>
+                <Text style={styles.statNumber}>Joined: {joinDate}</Text>
+              </View>
+            </>
+          )}
         </View>
+
         <View style={styles.menu}>
-          <Text style={styles.menuItem}>Settings</Text>
+          <TouchableOpacity onPress={() => setEditMode(!editMode)}>
+            <Text style={styles.menuItem}>{editMode ? "Done" : "Edit"}</Text>
+          </TouchableOpacity>
           <Text style={styles.menuItem}>Logout</Text>
         </View>
       </View>
@@ -152,3 +188,23 @@ const styles = StyleSheet.create({
   
 });
 export default UserProfile;
+
+const saveStatsToServer = async (lifetimePlants, joinDate) => {
+  try {
+    const response = await fetch('https://example.com/saveStats', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        lifetimePlants,
+        joinDate,
+      }),
+    });
+    const data = await response.json();
+    console.log('Stats saved successfully:', data);
+  } catch (error) {
+    console.error('Error saving stats:', error);
+  }
+};
+
