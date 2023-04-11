@@ -8,18 +8,19 @@ import MyPlantBase from './pages/myPlantBase';
 import IndividualPage from './pages/individualPage';
 import AddPlant from './pages/addPlant';
 const Stack = createStackNavigator();
-import { useFonts } from 'expo-font';
+import * as Font from 'expo-font';
+
+async function loadFonts() {
+  await Font.loadAsync({
+    "Kabel-Black": require("./assets/fonts/Kabel-Black.ttf"),
+    "JosefinSans": require("./assets/fonts/JosefinSans-Regular.ttf"),
+  });
+}
+
+loadFonts();
 
 function App() {
 
-  const [loaded] = useFonts({
-    'Kabel-Black': require('./assets/fonts/Kabel-Black.ttf'),
-    'Josefin Sans': require('./assets/fonts/JosefinSans-VariableFont_wght.ttf'),
-  });
-
-  if (!loaded) {
-    return null; // Render a loading screen or placeholder component while the font is loading
-  }
 
   return (
     <NavigationContainer>

@@ -1,14 +1,4 @@
 import { StyleSheet } from "react-native";
-import * as Font from 'expo-font';
-
-async function loadFonts() {
-  await Font.loadAsync({
-    "Kabel-Black": require("../assets/fonts/Kabel-Black.ttf"),
-    "JosefinSans": require("../assets/fonts/JosefinSans-Regular.ttf"),
-  });
-}
-
-loadFonts();
 
 export default StyleSheet.create({
     plantPicsContainer: {

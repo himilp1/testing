@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -18,25 +19,45 @@ const styles = StyleSheet.create({
   imageContainer: {
     flex: 3,
     alignItems: 'center',
+    marginBottom: 10,
   },
   image: {
     width: 300,
     height: 300,
     resizeMode: 'cover',
     borderRadius: 20,
+    padding: 20,
   },
   uploadArea:{
+    alignItems: 'center',
     backgroundColor: '#E4D9C4',
-    flex: 1
+    marginTop: 15,
+    width: 300,
+    height: 300,
+    borderRadius: 20,
+    justifyContent: 'center',
+    padding: 10,
   },
   plantName:{
     flex: .5,
+    marginTop: 20,
+
   },
   plantSpecies:{
     flex: .5,
   },
   plantDescription:{
     flex: 2,
+  },
+  uploadText:{
+    alignItems: 'center',
+    fontSize: 36,
+    fontFamily: 'JosefinSans'
+  },
+  confirmButton:{
+    flex: 1,
+    alignItems: 'center',
+
   }
 });
 
