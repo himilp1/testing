@@ -54,7 +54,7 @@ export default function AddPlant({route}) {
       setImageUri(result.assets[0].uri);
       setImageBlob(result);
 
-      const plantData = await detectPlant(result.uri);
+      const plantData = await detectPlant(result.assets[0].uri);
       if (plantData && plantData.suggestions && plantData.suggestions.length > 0) {
         setPlantSpecies(plantData.suggestions[0].plant_name);
       } else {
