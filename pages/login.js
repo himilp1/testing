@@ -11,11 +11,9 @@ function Login() {
     const [password, setPassword] = React.useState('');
 
     const handleLogin = () => {
-    console.log("in handlelogin");
        auth.signInWithEmailAndPassword(username, password)
           .then((userCredential) => {   
             const user = userCredential.user;
-            console.log(user.uid);
             navigation.navigate('myPlantBase', { user: user.uid});
           })
           .catch((error) => {
