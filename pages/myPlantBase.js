@@ -36,11 +36,12 @@ function splitData(){
   }
 }
 
-function MyPlantBase() {
+function MyPlantBase({route}) {
+  const {user} = route.params;
   const navigation = useNavigation();
   
   const addPlant = () =>{
-    navigation.navigate("addPlant");
+    navigation.navigate("addPlant", {user: user});
   }
   const plantPage = () =>{
     navigation.navigate("Individual")

@@ -13,14 +13,13 @@ import * as Font from 'expo-font';
 async function loadFonts() {
   await Font.loadAsync({
     "Kabel-Black": require("./assets/fonts/Kabel-Black.ttf"),
-    "JosefinSans": require("./assets/fonts/JosefinSans-Regular.ttf"),
+    "JosefinSans": require("./assets/fonts/JosefinSans-VariableFont_wght.ttf"),
   });
 }
 
 loadFonts();
 
 function App() {
-
 
   return (
     <NavigationContainer>
