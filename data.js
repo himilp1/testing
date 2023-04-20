@@ -1,17 +1,24 @@
 import { getStorage, ref, listAll, getDownloadURL } from 'firebase/storage';
 
 export async function getUserImages(userId) {
-    const storage = getStorage();
-    const folderPath = `users/${userId}/plants`;
-    const folderRef = ref(storage, folderPath);
-    const imageUrls = [];
+  const storage = getStorage();
+  const folderPath = `users/${userId}/plants`;
+  const folderRef = ref(storage, folderPath);
+  const imageUrls = [];
 
-    const { items } = await listAll(folderRef);
-    for (const item of items) {
-        const url = await getDownloadURL(item);
-        imageUrls.push({ id: item.name, pinSize: 'medium', img: url });
-    }
-    return imageUrls;
+  const pinSizes = ['medium', 'large'];
+
+  const randomPinSize = () => {
+    const randomIndex = Math.floor(Math.random() * pinSizes.length);
+    return pinSizes[randomIndex];
+  };
+
+  const { items } = await listAll(folderRef);
+  for (const item of items) {
+    const url = await getDownloadURL(item);
+    imageUrls.push({ id: item.name, pinSize: randomPinSize(), img: url });
+  }
+  return imageUrls;
 }
 
 
