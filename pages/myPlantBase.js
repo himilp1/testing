@@ -1,53 +1,72 @@
-import React from 'react';
-import { View, Text, ScrollView, Image} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, ScrollView, Image } from 'react-native';
 import Pin from '../components/Pin';
 import styles from '../styles/myPlantBaseStyle';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { getUserImages } from '../data';
+import temp from '../img/plant1.jpeg';
+import { useFocusEffect } from '@react-navigation/native';
 
-import plant1 from '../img/plant1.jpeg';
-import plant2 from '../img/plant2.jpeg';
-import plant3 from '../img/plant3.jpeg';
-import plant4 from '../img/plant4.jpeg';
-import plant5 from '../img/plant5.jpeg';
-import plant6 from '../img/plant6.jpeg';
-import plant7 from '../img/plant7.jpeg';
 
-const data = [
-  { id: 1, pinSize: "medium", img: plant1 },
-  { id: 2, pinSize: "small", img: plant2 },
-  { id: 3, pinSize: "small", img: plant3 },
-  { id: 4, pinSize: "large", img: plant4 },
-  { id: 5, pinSize: "medium", img: plant5 },
-  { id: 6, pinSize: "small", img: plant6 },
-  { id: 7, pinSize: "large", img: plant7 },
-];
 const firstColumn = [];
 const secondColumn = [];
-splitData();
 
-function splitData(){
-  for(let i = 0; i < data.length; i++){
-    if(i % 2 == 0)
-      firstColumn.push(data[i]);
-    else
-      secondColumn.push(data[i]);
+function splitData(data) {
+  firstColumn.length = 0;
+  secondColumn.length = 0;
+
+  for (let i = 0; i < data.length; i++) {
+    if (i % 2 === 0) firstColumn.push(data[i]);
+    else secondColumn.push(data[i]);
   }
 }
 
-function MyPlantBase({route}) {
-  const {user} = route.params;
+
+function MyPlantBase({ route }) {
+  const { user } = route.params;
   const navigation = useNavigation();
-  
-  const addPlant = () =>{
-    navigation.navigate("addPlant", {user: user});
-  }
-  const plantPage = () =>{
-    navigation.navigate("Individual")
-  }
+
+  const [data, setData] = useState([]);
+
+
+  const fetchData = async () => {
+    const fetchedData = await getUserImages(user);
+    console.log("Fetched data: ", fetchedData);
+    const updatedData = fetchedData.map((item) => {
+      return {
+        id: item.id,
+        pinSize: item.pinSize,
+        img: { uri: item.img },
+      };
+    });
+    setData(updatedData);
+  };
+
+  useEffect(() => {
+    fetchData();
+    const unsubscribe = navigation.addListener("focus", () => {
+      fetchData();
+    });
+
+    return unsubscribe;
+  }, [navigation, user]);
+
+  useEffect(() => {
+    splitData(data);
+  }, [data]);
+
+  const addPlant = () => {
+    navigation.navigate('addPlant', { user: user, onPlantAdded: fetchData });
+  };  
+
+  const plantPage = () => {
+    navigation.navigate('Individual');
+  };
+
   const renderColumn = (column) => {
-    return column.map(item => (
+    return column.map((item) => (
       <View key={item.id}>
         <TouchableOpacity onPress={plantPage}>
           <Pin pinSize={item.pinSize} img={item.img}></Pin>
@@ -74,7 +93,7 @@ function MyPlantBase({route}) {
           </View>
           <View style={styles.profilePicture}>
             <TouchableOpacity>
-              <Image source={plant1} style={{width: 30, height: 30, borderRadius: 20,}}></Image>
+              <Image source={temp} style={{width: 30, height: 30, borderRadius: 20,}}></Image>
             </TouchableOpacity>
           </View>
         </View>
