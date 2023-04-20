@@ -35,6 +35,7 @@ async function detectPlant(imageUri) {
 }
 
 const addPlantURL  = "https://us-central1-plantify-d36ed.cloudfunctions.net/server/add_plant";
+
 export default function AddPlant({route}) {
   const {user} = route.params;
   const [imageUri, setImageUri] = useState(null);
@@ -43,6 +44,18 @@ export default function AddPlant({route}) {
   const [plantSpecies, setPlantSpecies] = useState("");
   const [plantDescription, setPlantDescription] = useState("");
   const navigation = useNavigation();
+
+  useEffect(() => {
+  (async () => {
+    if (Platform.OS !== 'web') {
+      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      if (status !== 'granted') {
+        Alert.alert('Error', 'Sorry, we need media library permissions to make this work!');
+      }
+    }
+  })();
+}, []);
+
 
   const selectImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -63,40 +76,63 @@ export default function AddPlant({route}) {
     }
   };
 
-  const uploadImage = async (url) =>{
-    if(!imageBlob) return;
-
+  const uploadImage = async (url) => {
+    if (!imageBlob) return;
+  
     const storage = getStorage();
     const imageRef = ref(storage, url);
     const img = await fetch(imageUri);
     const bytes = await img.blob();
+  
+    await uploadBytes(imageRef, bytes).then(() => {
+      console.log("Image uploaded successfully!");
+      Alert.alert("Success", "Image uploaded successfully!");
+    }).catch((error) => {
+      console.error("Error uploading image: ", error);
+      Alert.alert("Error", "Failed to upload image.");
+    });
+  };
+  
 
-    await uploadBytes(imageRef, bytes);
-  }
 
-
-  const handleAddPlant = () =>{
-    console.log("in add Plant id is " + user);
-    fetch(addPlantURL, {
-      method: 'POST',
-      headers: {
+  const handleAddPlant = async () => {
+    try {
+      console.log("in add Plant id is " + user);
+      const response = await fetch(addPlantURL, {
+        method: 'POST',
+        headers: {
           'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
+        },
+        body: JSON.stringify({
           plantname: plantName,
           species: plantSpecies,
           description: plantDescription,
           userId: user,
-      })
-      })
-      .then(response => response.json())
-      .then(data => {
-        console.log("line 60:" + data.plantUrl);
-        uploadImage(data.plantUrl);
-        navigation.navigate("myPlantBase", {user: user});
-      })
-      .catch(error => console.error(error));
-  }
+        })
+      });
+  
+      const response_data = await response.json();
+      console.log("Returned data from server:", response_data); // Log the returned data
+      console.log("line 60:" + response_data.plantUrl);
+  
+      if (response_data.plantUrl) {
+        await uploadImage(response_data.plantUrl);
+        if (route.params.onPlantAdded) {
+          route.params.onPlantAdded();
+        }
+        navigation.navigate("myPlantBase", { user: user });
+      } else {
+        console.error("Invalid plantUrl received from the server.");
+        Alert.alert("Error", "Failed to add plant.");
+      }
+  
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  
+  
+  
   
 
   return (
