@@ -7,6 +7,11 @@ import HomeScreen from './pages/homeScreen';
 import MyPlantBase from './pages/myPlantBase';
 import IndividualPage from './pages/individualPage';
 import AddPlant from './pages/addPlant';
+import WalkthroughScreen from './dynamic_landing/WalkthroughScreen/WalkthroughScreen';
+import WalkthroughAppConfig from './dynamic_landing/WalkthroughAppConfig';
+import StyleDict from './dynamic_landing/DynamicAppStyles';
+import userProfile from './pages/userProfile.js';
+import ToDo from './pages/toDo';
 const Stack = createStackNavigator();
 import * as Font from 'expo-font';
 
@@ -24,12 +29,18 @@ function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerShown: false,}}>
+      <Stack.Screen
+          name="WalkthroughScreen"
+          component={WalkthroughScreen}
+          initialParams={{appConfig: WalkthroughAppConfig, appStyles: StyleDict}}
+        />
         <Stack.Screen name="login" component={Login}></Stack.Screen>
         <Stack.Screen name="register" component={Register}></Stack.Screen>
-        <Stack.Screen name="home" component={HomeScreen}></Stack.Screen>
         <Stack.Screen name="myPlantBase" component={MyPlantBase}></Stack.Screen>
         <Stack.Screen name="Individual" component={IndividualPage}></Stack.Screen>
-        <Stack.Screen name="addPlant" component={AddPlant}></Stack.Screen>
+        <Stack.Screen name="Profile" component={userProfile}></Stack.Screen> 
+        <Stack.Screen name="ToDo" component={ToDo}></Stack.Screen>
+        <Stack.Screen name="addPlant" component={AddPlant}></Stack.Screen> 
       </Stack.Navigator>
     </NavigationContainer>
   );
