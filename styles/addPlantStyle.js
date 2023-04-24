@@ -92,6 +92,29 @@ const styles = StyleSheet.create({
     backgroundColor: '#385250',
     borderRadius: 20,
   },
+  pinSizeSelection: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginBottom: 20,
+    flexWrap: 'wrap',
+  },  
+  taskBubble: {
+    backgroundColor: "#385250",
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 20,
+    marginRight: 10,
+    marginBottom: 10,
+  },
+  completedTaskBubble: {
+    backgroundColor: "rgba(194, 194, 194, 0.5)",
+  },
+  taskBubbleText: {
+    fontSize: 16,
+    color: "#FFFFFF",
+    fontWeight: "600",
+  },
+  
 });
 
 
