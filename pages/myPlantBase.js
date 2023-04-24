@@ -8,6 +8,8 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { getUserImages } from '../data';
 import temp from '../img/plant1.jpeg';
 import { useFocusEffect } from '@react-navigation/native';
+import ToDo from './toDo';
+import UserProfile from './userProfile';
 
 
 const firstColumn = [];
@@ -39,6 +41,7 @@ function MyPlantBase({ route }) {
         id: item.id,
         pinSize: item.pinSize,
         img: { uri: item.img },
+        //maybe update this
       };
     });
     setData(updatedData);
@@ -61,19 +64,35 @@ function MyPlantBase({ route }) {
     navigation.navigate('addPlant', { user: user, onPlantAdded: fetchData });
   };  
 
-  const plantPage = () => {
-    navigation.navigate('Individual');
+  const plantPage = (plantData) => {
+    navigation.navigate('Individual', { userId: 'someUserId', plantId: 'somePlantId' });
   };
+
+  const ToDoPage = () => {
+    navigation.navigate('ToDo');
+  };  
+
+  const profilePage = () => {
+    navigation.navigate('Profile');
+  };  
+  
 
   const renderColumn = (column) => {
     return column.map((item) => (
       <View key={item.id}>
-        <TouchableOpacity onPress={plantPage}>
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate("Individual", { userId: user, plantId: item.id })
+          }
+        >
           <Pin pinSize={item.pinSize} img={item.img}></Pin>
         </TouchableOpacity>
       </View>
     ));
   };
+  
+  
+  
 
   return (
     <ScrollView style={styles.scrollView}>
@@ -92,7 +111,7 @@ function MyPlantBase({ route }) {
             </TouchableOpacity>
           </View>
           <View style={styles.profilePicture}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={profilePage}>
               <Image source={temp} style={{width: 30, height: 30, borderRadius: 20,}}></Image>
             </TouchableOpacity>
           </View>
@@ -115,7 +134,7 @@ function MyPlantBase({ route }) {
             <Text>Organize</Text>
           </View>
           <View style={styles.plantToDos}>
-            <TouchableOpacity style={{borderRadius: 15,borderWidth: 1,padding: 10, backgroundColor: "#385250",alignItems: 'center'}}>
+            <TouchableOpacity onPress = {ToDoPage} style={{borderRadius: 15,borderWidth: 1,padding: 10, backgroundColor: "#385250",alignItems: 'center'}}>
               <Icon name="check-circle" size={30} color={"white"}></Icon>
             </TouchableOpacity>
             <Text style={{fontSize: 15,}}>To-Dos</Text>
