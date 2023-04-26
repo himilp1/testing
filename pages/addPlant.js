@@ -10,10 +10,8 @@ import {useNavigation} from '@react-navigation/native';
 import { getFirestore, doc, setDoc } from 'firebase/firestore';
 import { updateMetadata } from 'firebase/storage';
 import { Animated, Easing } from 'react-native';
+import { PLANT_ID_API_KEY } from '@env';
 
-
-
-const PLANT_ID_API_KEY = 'pXFNYcvdQGVbfMuTQPIw6HB9LCJbCiTdo1NtBhePsdsIibnI2C';
 
 
 async function detectPlant(imageUri) {
