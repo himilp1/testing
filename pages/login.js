@@ -10,6 +10,7 @@ function Login() {
   const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [backgroundOpacity] = useState(new Animated.Value(0));
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     Animated.timing(backgroundOpacity, {
@@ -19,7 +20,19 @@ function Login() {
     }).start();
   }, []);
 
+  const isValidEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
   const handleLogin = () => {
+    setErrorMessage('');
+
+    if (!isValidEmail(username)) {
+      setErrorMessage('Invalid email address');
+      return;
+    }
+
     auth
       .signInWithEmailAndPassword(username, password)
       .then((userCredential) => {
@@ -30,6 +43,12 @@ function Login() {
         const errorCode = error.code;
         const errorMessage = error.message;
         console.log(errorCode, errorMessage);
+
+        if (errorCode === 'auth/wrong-password') {
+          setErrorMessage('Wrong password');
+        } else {
+          setErrorMessage(errorMessage);
+        }
       });
   };
 
@@ -59,6 +78,10 @@ function Login() {
               value={password}
               secureTextEntry={true}
             />
+
+            {errorMessage ? (
+              <Text style={styles.errorMessage}>{errorMessage}</Text>
+            ) : null}
 
             <TouchableOpacity onPress={handleLogin} style={styles.loginButton}>
               <Text style={styles.loginText}>Login</Text>

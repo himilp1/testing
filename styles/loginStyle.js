@@ -23,7 +23,9 @@ export default StyleSheet.create({
         padding: 30,
         alignSelf: "center",
         backgroundColor: '#FFFFFF',
-    },
+        width: windowWidth * 0.8, // Set a fixed width (e.g., 80% of the window width)
+        minHeight: windowHeight * 0.5, // Set a minimum height (e.g., 50% of the window height)
+      },
     plantifyHeader: {
         fontFamily: 'Kabel-Black',
         fontStyle: 'normal',
@@ -83,4 +85,9 @@ export default StyleSheet.create({
     loginLink: {
         alignSelf: "center",
     },
+    errorMessage: {
+        color: 'red',
+        marginBottom: 10,
+        textAlign: 'center',
+      },
 })  

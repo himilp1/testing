@@ -2,7 +2,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import Login from './pages/login';
-import Register from './pages/register';
+import Register from './pages/register.js';
 import HomeScreen from './pages/homeScreen';
 import MyPlantBase from './pages/myPlantBase';
 import IndividualPage from './pages/individualPage';
@@ -49,11 +49,3 @@ function App() {
 }
 
 export default App;
-
-//<Stack.Screen
-//name="WalkthroughScreen"
-//component={WalkthroughScreen}
-//initialParams={{appConfig: WalkthroughAppConfig, appStyles: StyleDict}}
-///>
-//<Stack.Screen name="login" component={Login}></Stack.Screen>
-//<Stack.Screen name="register" component={Register}></Stack.Screen>
