@@ -3,7 +3,7 @@ import { getStorage, ref, listAll, getDownloadURL, getMetadata } from 'firebase/
 export async function getUserImages(userId) {
   const storage = getStorage();
   const folderPath = `users/${userId}/plants`;
-  const folderRef = ref(storage, folderPath);
+  const folderRef = ref(storage, folderPath); 
   const imageUrls = [];
 
   const pinSizes = ['small', 'medium', 'large'];

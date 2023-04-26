@@ -1,31 +1,53 @@
-// toDo.js
-import React, { useState } from 'react';
-import { View, Text, ScrollView, Image, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, ScrollView, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { getStorage, ref, listAll, getDownloadURL, getMetadata } from 'firebase/storage';
+import { getUserImages } from '../data';
+import plantifyLogo from '../img/plantify_logo.png';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
-const data = [
-  { id: 1, name: 'Plant 1', img: require('../img/plant1.jpeg'), water: true, care: false },
-  { id: 2, name: 'Plant 2', img: require('../img/plant2.jpeg'), water: false, care: true },
-  { id: 3, name: 'Plant 3', img: require('../img/plant3.jpeg'), water: true, care: true },
-  { id: 4, name: 'Plant 4', img: require('../img/plant4.jpeg'), water: false, care: false },
-  { id: 5, name: 'Plant 5', img: require('../img/plant5.jpeg'), water: true, care: false },
-  { id: 6, name: 'Plant 6', img: require('../img/plant6.jpeg'), water: false, care: true },
-  { id: 7, name: 'Plant 7', img: require('../img/plant7.jpeg'), water: true, care: true },
-];
-
-function ToDo() {
+function ToDo({route}) {
+  const { userId } = route.params;
   const [completedTasks, setCompletedTasks] = useState([]);
+  const [plants, setPlants] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const toggleTaskCompletion = (plantId, task) => {
+
+  useEffect(() => {
+    const fetchPlants = async () => {
+      const fetchedData = await getUserImages(userId);
+      setPlants(fetchedData);
+    };
+    const fetchCompletedTasks = async () => {
+      const storedTasks = await AsyncStorage.getItem('completedTasks');
+      if (storedTasks) {
+        setCompletedTasks(JSON.parse(storedTasks));
+      }
+    };
+    const fetchData = async () => {
+      await fetchPlants();
+      await fetchCompletedTasks();
+      setLoading(false);
+    };
+    fetchData();
+  }, [userId]);
+  
+  
+
+  const toggleTaskCompletion = async (plantId, task) => {
     const taskKey = `${plantId}-${task}`;
+    let updatedTasks;
     if (completedTasks.includes(taskKey)) {
-      setCompletedTasks(completedTasks.filter((t) => t !== taskKey));
+      updatedTasks = completedTasks.filter((t) => t !== taskKey);
     } else {
-      setCompletedTasks([...completedTasks, taskKey]);
+      updatedTasks = [...completedTasks, taskKey];
     }
+    setCompletedTasks(updatedTasks);
+    await AsyncStorage.setItem('completedTasks', JSON.stringify(updatedTasks));
   };
+  
 
   const renderTaskBubble = (plant, task) => {
     const taskKey = `${plant.id}-${task}`;
@@ -45,35 +67,39 @@ function ToDo() {
       </TouchableOpacity>
     );
   };
-  
-  
 
   const renderPlant = (plant) => {
     return (
       <View key={plant.id} style={styles.toDoPlantItem}>
-        <Image source={plant.img} style={styles.toDoPlantImage} />
+        <Image source={{ uri: plant.img }} style={styles.toDoPlantImage} />
         <View style={styles.toDoPlantInfo}>
-          <Text style={styles.toDoPlantName}>{plant.name}</Text>
+          <Text style={styles.toDoPlantName}>{plant.species}</Text>
           <View style={styles.taskContainer}>
-            {plant.water && renderTaskBubble(plant, 'Water')}
-            {plant.care && renderTaskBubble(plant, 'Take care')}
+            {renderTaskBubble(plant, 'Water')}
+            {renderTaskBubble(plant, 'Sunlight')}
           </View>
         </View>
       </View>
     );
   };
 
-  const plantsToDo = data.filter((plant) => plant.water || plant.care);
-
   return (
+    <View style={styles.container}>
     <ScrollView style={styles.scrollView}>
       <View style={styles.toDoHeader}>
         <Text style={styles.toDoTitle}>To-Do</Text>
       </View>
       <View style={styles.toDoList}>
-        {plantsToDo.map((plant) => renderPlant(plant))}
+        {plants.map((plant) => renderPlant(plant))}
       </View>
+      <Image source={plantifyLogo} style={styles.logo} />
     </ScrollView>
+    {loading && (
+      <View style={styles.loadingOverlay}>
+        <ActivityIndicator size="large" color="#385250" />
+      </View>
+    )}
+  </View>
   );
 }
 
@@ -84,6 +110,16 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#FFF7E9",
   },
+  loadingOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+  },
   scrollView: {
     flex: 1,
     backgroundColor: "#FFF7E9",
@@ -92,17 +128,22 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 20,
     paddingTop: 60,
-    backgroundColor: "#385250",
+    backgroundColor: "#385250", // Updated background color
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 4, // Added shadow
   },
   toDoTitle: {
-    fontSize: 28,
+    fontSize: 32, // Increased font size
     color: "#FFFFFF",
     fontWeight: "bold",
     marginBottom: 10,
     textAlign: "center",
-    fontFamily: 'Kabel-Black',
+    fontFamily: 'Kabel-Black', // Updated to use a custom font
   },
   toDoList: {
     paddingHorizontal: 20,
@@ -164,6 +205,19 @@ const styles = StyleSheet.create({
     bottom: 0,
     justifyContent: 'center',
     alignItems: 'center',
-  },  
+  },
+  logo: {
+    width: 200,
+    height: 50,
+    resizeMode: 'contain',
+    alignSelf: 'center',
+    marginTop: 20,
+    marginBottom: 20,
+  },
+  loadingIndicator: {
+    alignSelf: 'center',
+  },
 });
   
+
+
