@@ -10,7 +10,6 @@ import temp from '../img/icons8-test-account-80.png';
 import { useFocusEffect } from '@react-navigation/native';
 import ToDo from './toDo';
 import UserProfile from './userProfile';
-import { Animated, Easing } from 'react-native';
 
 
 
@@ -134,12 +133,6 @@ function MyPlantBase({ route }) {
               <Icon name="plus" size={30} color="white"></Icon>
             </TouchableOpacity>
             <Text>Add Plant</Text>
-          </View>
-          <View style={styles.organizePlant}>
-            <TouchableOpacity style={{borderRadius: 15,borderWidth: 1,padding: 10, backgroundColor: "#385250",alignItems: 'center'}}>
-              <Icon name="list" size={30} color="white"></Icon>
-            </TouchableOpacity>
-            <Text>Organize</Text>
           </View>
           <View style={styles.plantToDos}>
             <TouchableOpacity onPress = {ToDoPage} style={{borderRadius: 15,borderWidth: 1,padding: 10, backgroundColor: "#385250",alignItems: 'center'}}>

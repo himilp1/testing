@@ -1,5 +1,5 @@
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator, CardStyleInterpolators  } from '@react-navigation/stack';
 
 import Login from './pages/login';
 import Register from './pages/register.js';
@@ -29,7 +29,8 @@ function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{headerShown: false,}}>
+      <Stack.Navigator screenOptions={{headerShown: false, cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+          cardStyle: { backgroundColor: 'transparent' },}}>
       <Stack.Screen
           name="WalkthroughScreen"
           component={WalkthroughScreen}
