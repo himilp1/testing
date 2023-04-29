@@ -37,7 +37,9 @@ function Login() {
       .signInWithEmailAndPassword(username, password)
       .then((userCredential) => {
         const user = userCredential.user;
-        navigation.navigate('myPlantBase', { user: user.uid });
+        //navigation.navigate('myPlantBase', { user: user.uid });
+        //temporary for testing verify email change back to myPlantBase after done
+        navigation.navigate('verifyEmail', { user: user.uid, email: user.email});
       })
       .catch((error) => {
         const errorCode = error.code;

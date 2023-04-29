@@ -13,6 +13,7 @@ import StyleDict from './dynamic_landing/DynamicAppStyles';
 import userProfile from './pages/userProfile.js';
 import ToDo from './pages/toDo';
 import EditPlant from './pages/editPlant';
+import VerifyEmail from './pages/verifyEmail';
 const Stack = createStackNavigator();
 import * as Font from 'expo-font';
 
@@ -44,6 +45,7 @@ function App() {
         <Stack.Screen name="ToDo" component={ToDo}></Stack.Screen>
         <Stack.Screen name="addPlant" component={AddPlant}></Stack.Screen> 
         <Stack.Screen name="EditPlant" component={EditPlant}></Stack.Screen> 
+        <Stack.Screen name="verifyEmail" component={VerifyEmail}></Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
   );

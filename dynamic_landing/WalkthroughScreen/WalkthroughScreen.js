@@ -45,8 +45,8 @@ const WalkthroughScreen = ({ route }) => {
   );
   
   const [loaded] = useFonts({
-    'Kabel-Black': require('/Users/mihir.ar/Downloads/Client-Mobile-main 2/assets/fonts/Kabel-Black.ttf'),
-    'Josefin Sans': require('/Users/mihir.ar/Downloads/Client-Mobile-main 2/assets/fonts/JosefinSans-Regular.ttf'),
+    'Kabel-Black': require('../../assets/fonts/Kabel-Black.ttf'),
+    'Josefin Sans': require('../../assets/fonts/JosefinSans-Regular.ttf'),
   });
 
   if (!loaded) {

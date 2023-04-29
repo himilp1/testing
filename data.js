@@ -25,5 +25,6 @@ export async function getUserImages(userId) {
         
     });
   }
+  console.log("in data.js:" + imageUrls);
   return imageUrls;
 }

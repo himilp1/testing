@@ -30,7 +30,7 @@ function Register() {
         .then(response => response.json())
         .then(data => {
             const uid= data.token.uid;
-            navigation.navigate("myPlantBase", {uid});
+            navigation.navigate("verifyEmail", {uid, email});
         })
         .catch(error => console.error(error));
     };
